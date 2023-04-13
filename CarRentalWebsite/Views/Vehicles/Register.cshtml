@@ -1,0 +1,70 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@using static CarRentalWebsite.Entities.Vehicle;
+@model CarRentalWebsite.Entities.Vehicle
+
+@{
+    ViewData["Title"] = "Register Vehicle";
+}
+
+<h4>Register New Vehicle</h4>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Register">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Owner" class="control-label"></label>
+                <input asp-for="Owner" class="form-control" value="@UserManager.GetUserName(User)" />  
+                <span asp-validation-for="Owner" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Kit_Nr" class="control-label"></label>
+                <input asp-for="Kit_Nr" class="form-control" />
+                <span asp-validation-for="Kit_Nr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Licence_Plate" class="control-label"></label>
+                <input asp-for="Licence_Plate" class="form-control" />
+                <span asp-validation-for="Licence_Plate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vehicle_Model" class="control-label"></label>
+                <input asp-for="Vehicle_Model" class="form-control" />
+                <span asp-validation-for="Vehicle_Model" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vehicle_Type" class="control-label"></label>
+                <select asp-for="Vehicle_Type" class="form-control" asp-items="Html.GetEnumSelectList<EnumVehicleType>()">
+                    <option>Select vehicle type ...</option>
+                </select>
+                <span asp-validation-for="Vehicle_Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Purchase_Year" class="control-label"></label>
+                <input asp-for="Purchase_Year" class="form-control" />
+                <span asp-validation-for="Purchase_Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Activation_Date" class="control-label"></label>
+                <input asp-for="Activation_Date" class="form-control" />
+                <span asp-validation-for="Activation_Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Validity" class="control-label"></label>
+                <input asp-for="Validity" class="form-control" />
+                <span asp-validation-for="Validity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Register" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

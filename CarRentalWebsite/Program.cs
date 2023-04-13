@@ -1,4 +1,5 @@
 using CarRentalWebsite.Data;
+using CarRentalWebsite.Database;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,8 +12,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddDbContext<DBContext>(
+              options => options.UseSqlServer(builder.Configuration.GetConnectionString("CRWDbConnection")));
 builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
 
