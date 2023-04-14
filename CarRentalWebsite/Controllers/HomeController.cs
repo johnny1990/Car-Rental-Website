@@ -5,6 +5,7 @@ using IronBarCode;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing.Constraints;
 using System.Diagnostics;
 using System.Drawing;
 using System.Text;
@@ -97,6 +98,47 @@ namespace CarRentalWebsite.Controllers
             ViewData["Vehicles"] = new SelectList(_context.Vehicles.Where(p => p.Owner == UserName), "Kit_Nr", "Kit_Nr");
             return View();
         }
+
+
+        //Generate OTP
+        #region GenerateOTP
+       
+        [HttpGet]
+        public IActionResult GenerateOTP()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult SendOTP()
+        {
+            string num = "0123456789";
+            int len = num.Length;
+            string otp = string.Empty;
+            int otpdigit = 10;
+            string finaldigit;
+            int getIndex;
+
+            for(int i = 0; i < otpdigit; i++ )
+            {
+                do
+                {
+                    getIndex = new Random().Next(0, len);
+                    finaldigit = num.ToCharArray()[getIndex].ToString();
+                }
+                   while (otp.IndexOf(finaldigit) != -1);
+                otp += finaldigit;
+            }
+
+            TempData["otp"] = otp;
+
+
+            return RedirectToAction("GenerateOTP", "Home");
+        }
+
+
+
+        #endregion
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
