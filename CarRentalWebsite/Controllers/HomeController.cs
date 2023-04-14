@@ -1,4 +1,5 @@
 ﻿using CarRentalWebsite.Database;
+using CarRentalWebsite.Entities;
 using CarRentalWebsite.Models;
 using IronBarCode;
 using Microsoft.AspNetCore.Authorization;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using System.Drawing;
+using System.Text;
 
 namespace CarRentalWebsite.Controllers
 {
@@ -38,12 +40,12 @@ namespace CarRentalWebsite.Controllers
         {
             var UserName = User.Identity.Name.ToString();
 
-            ViewData["Vehicles"] = new SelectList(_context.Vehicles.Where(p => p.Owner == UserName), "Kit_Nr", "Kit_Nr");
+            ViewData["Vehicles"] = new SelectList(_context.Vehicles.Where(p => p.Owner == UserName && p.Validity != true), "Kit_Nr", "Kit_Nr");
             return View();
         }
 
         [HttpPost]
-        public IActionResult GenerateQRCode(GenerateQRCodeModel generateQRCode)
+        public IActionResult GenerateQRCode(GenerateQRCodeModel generateQRCode, RegistrationQR qrmodel)
         {
             try
             {
@@ -61,6 +63,29 @@ namespace CarRentalWebsite.Controllers
                 string fileName = Path.GetFileName(filePath);
                 string imageUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}" + "/GeneratedQRCode/" + fileName;
                 ViewBag.QrCodeUri = imageUrl;
+
+                //save qr registration details 
+                qrmodel.Owner = User.Identity.Name.ToString(); 
+                qrmodel.Image = Encoding.ASCII.GetBytes(imageUrl);
+                qrmodel.Generation_Date = DateTime.Now;
+
+    
+                _context.Add(qrmodel);
+                _context.SaveChanges();
+
+
+                //update GenerationDate&Validity fields 
+                var entity = _context.Vehicles.FirstOrDefault(item => item.Id == qrmodel.Id);
+                if (entity != null)
+                {
+                
+                    entity.Activation_Date = qrmodel.Generation_Date;
+                    entity.Validity = true;
+
+                    _context.Vehicles.Update(entity);
+                    _context.SaveChanges();
+                }
+
             }
             catch (Exception)
             {
@@ -72,6 +97,7 @@ namespace CarRentalWebsite.Controllers
             ViewData["Vehicles"] = new SelectList(_context.Vehicles.Where(p => p.Owner == UserName), "Kit_Nr", "Kit_Nr");
             return View();
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

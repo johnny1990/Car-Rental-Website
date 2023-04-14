@@ -5,7 +5,7 @@ namespace CarRentalWebsite.Entities
 {
     public class Vehicle
     {
-        //(1. Owner 2. kit no 3. Licence plate no 4. Vehicle model 5. vehicle type 6. purchase year 7. Activation date 8. validity)
+   
         [Key]
         public int Id { get; set; }
         public string ? Owner { get; set; }
