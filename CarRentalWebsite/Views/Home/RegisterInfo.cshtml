@@ -1,0 +1,17 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Register Informations";
+}
+
+<h3>Register Info</h3>
+<p class="fw-bold"> Dear  @UserManager.GetUserName(User),  in order to register your vehicle you need to folow below steps:</p>
+
+<p> Step 1: Register simple the vehicle by going to Register page </p>
+<p> Step 2: Choose your vehicle from according to your username saved! </p>
+<p> Step 3: Click generate qr code and your vehicle registered succesfully</p>
+<p> Step 4: After that will update succesfully, the status of vehicle and you can see Enabled=True </p>
+
+
