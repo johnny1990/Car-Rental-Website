@@ -22,14 +22,14 @@
 
     <input type="submit" value="ValidateOtp" />
 
-    @if (@TempData["otp"] == )
+    @*@if (@TempData["otp"] == )
     {
         TempData["result"] = "Token is Valid";
     }
     else
     {
         TempData["result"] = "Token is Valid";
-    }
+    }*@
     <input type="text" contenteditable="false" value="@TempData["result"]" ) />
 </form>
 

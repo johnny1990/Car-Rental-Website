@@ -1,0 +1,47 @@
+﻿@model CarRentalWebsite.Entities.Complain
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "New complain from user";
+}
+
+
+<h4>New Complain from User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="New">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Owner" class="control-label"></label>
+                <input asp-for="Owner" class="form-control" value="@UserManager.GetUserName(User)" />
+                <span asp-validation-for="Owner" class="text-danger" ></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Kit_Number" class="control-label"></label>
+                <select asp-for="Kit_Number" class="form-control" asp-items="ViewBag.KitsByUser"></select>
+                <span asp-validation-for="Kit_Number" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Message" class="control-label"></label>
+                <textarea asp-for="Message" class="form-control" style="height:200px; width:415px"></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Message_Date" class="control-label"></label>
+                <input asp-for="Message_Date" class="form-control"/>
+                <span asp-validation-for="Message_Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="List">Back to List</a>
+</div>
+
