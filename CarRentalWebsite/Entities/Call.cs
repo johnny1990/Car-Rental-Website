@@ -6,7 +6,7 @@ namespace CarRentalWebsite.Entities
 {
     public class Call
     {
-        //(1. Owner Name 2. Kit no 3. Contact Person mobile no 4. date with time 5. Call duration)
+        
         [Key]
         public int Id { get; set; }
         public string OwnerName { get; set; }
