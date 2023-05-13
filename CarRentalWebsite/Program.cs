@@ -1,5 +1,6 @@
 using CarRentalWebsite.Data;
 using CarRentalWebsite.Database;
+using CarRentalWebsite.Hubs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddDbContext<DBContext>(
               options => options.UseSqlServer(builder.Configuration.GetConnectionString("CRWDbConnection")));
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
 
 
 var app = builder.Build();
@@ -44,6 +46,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapHub<ChatHub>("/ChatHub");
 app.MapRazorPages();
 
 app.Run();

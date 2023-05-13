@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Chat page";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Real-Time Chat with customers</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.13/signalr.min.js"></script>
+</head>
+<body>
+    <div>
+        <h1 class="text-center">Chat Messages</h1>
+        <input type="text" id="username"  value="@UserManager.GetUserName(User)"/>
+        <input type="text" id="message" placeholder="Enter your message" />
+        <button id="sendButton">Send</button>
+    </div>
+    <div id="chatBox"></div>
+    <script type="text/javascript" src="~/js/ChatMessage.js">  
+    </script>
+
+    <div>
+       
+    </div>
+</body>
+</html>

@@ -31,24 +31,6 @@ namespace CarRentalWebsite.Controllers
                         Problem("Entity set 'DBContext.Calls'  is null.");
         }
 
-        // GET: Calls/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Calls == null)
-            {
-                return NotFound();
-            }
-
-            var call = await _context.Calls
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (call == null)
-            {
-                return NotFound();
-            }
-
-            return View(call);
-        }
-
         // GET: Calls/New
         public IActionResult New()
         {
