@@ -14,5 +14,7 @@ namespace CarRentalWebsite.Database
         public DbSet<RegistrationQR> Registrations { get; set; }
 
         public DbSet<Complain> Complains { get; set; }
+
+        public DbSet<Call> Calls { get; set; }
     }
 }
