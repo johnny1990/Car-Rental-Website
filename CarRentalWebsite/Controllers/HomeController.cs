@@ -1,4 +1,6 @@
-﻿using CarRentalWebsite.Database;
+﻿using CarRentalWebsite.Data;
+using CarRentalWebsite.Data.Migrations;
+using CarRentalWebsite.Database;
 using CarRentalWebsite.Entities;
 using CarRentalWebsite.Models;
 using IronBarCode;
@@ -6,9 +8,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing.Constraints;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Drawing;
+using System.Reflection;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CarRentalWebsite.Controllers
 {
@@ -17,12 +22,15 @@ namespace CarRentalWebsite.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IWebHostEnvironment _environment;
         private readonly DBContext _context;
+        private readonly ApplicationDbContext _dcContext;
 
-        public HomeController(ILogger<HomeController> logger, IWebHostEnvironment environment, DBContext context)
+        public HomeController(ILogger<HomeController> logger, IWebHostEnvironment environment,
+            DBContext context, ApplicationDbContext dcContext)
         {
             _logger = logger;
             _environment = environment;
             _context = context;
+            _dcContext = dcContext;
         }
 
 
@@ -31,10 +39,31 @@ namespace CarRentalWebsite.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> OwnerDetails()
         {
+            ////var UserName = User.Identity.Name.ToString();
+            ////var Address = User.Identity..Address.ToString();
+            ////var Mobile = User.Identity.Phone.ToString();
+            ////var emergencyContact = User.Identity.EmergencyContact.ToString();
+            ////var registrationDate = User.Identity.Date.ToString();
+            //1.Name            --Vehicle 
+            //2.Address         --?? auth
+            //3.Owner mobile no  --?? auth
+            //4.Emergency contact no  
+            //5.Edit        -nok
+            //
+            // Delete        =nok
+            // 6.Registration date 
+
             return View();
+            //return _dcContext.Users != null ?
+            //            View(await _dcContext.Users.ToListAsync()) :
+            //            Problem("Entity set 'DBContext.Calls'  is null.");
+
         }
+
 
         [Authorize]
         public IActionResult GenerateQRCode()
@@ -133,11 +162,13 @@ namespace CarRentalWebsite.Controllers
             TempData["otp"] = otp;
 
 
-            return RedirectToAction("GenerateOTP", "Home");
+           return RedirectToAction("GenerateOTP", "Home");
         }
 
-
-
+        public IActionResult ValidateOTP()
+        {
+            return View();
+        }
         #endregion
 
         [HttpGet]
@@ -154,6 +185,6 @@ namespace CarRentalWebsite.Controllers
         public IActionResult About()
         {
             return View();
-        }
+        }       
     }
 }

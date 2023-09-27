@@ -15,21 +15,21 @@
     
 </form>
 
-<form method="post" asp-action="GenerateOTP" asp-controller="Home">
+<form method="post" asp-action="ValidateOTP" asp-controller="Home">
 
     <div> Type your Generated OTP password</div>
     <input type="text" />
 
     <input type="submit" value="ValidateOtp" />
 
-    @*@if (@TempData["otp"] == )
+    @if (@TempData["otp"] == @TempData["otp"]) 
     {
         TempData["result"] = "Token is Valid";
     }
     else
     {
-        TempData["result"] = "Token is Valid";
-    }*@
+        TempData["result"] = "Token is not Valid";
+    }
     <input type="text" contenteditable="false" value="@TempData["result"]" ) />
 </form>
 
