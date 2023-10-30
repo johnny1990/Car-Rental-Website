@@ -1,8 +1,12 @@
 using CarRentalWebsite.Data;
 using CarRentalWebsite.Database;
 using CarRentalWebsite.Hubs;
+using CarRentalWebsite.Services;
+using CarRentalWebsite.SmtpService;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +24,11 @@ builder.Services.AddDbContext<DBContext>(
               options => options.UseSqlServer(builder.Configuration.GetConnectionString("CRWDbConnection")));
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
+
+
+
+
+builder.Services.AddSingleton<Smtp, Smtp>();
 
 
 var app = builder.Build();
