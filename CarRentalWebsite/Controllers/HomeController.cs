@@ -7,6 +7,7 @@ using CarRentalWebsite.Services;
 using CarRentalWebsite.SmtpService;
 using IronBarCode;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing.Constraints;
@@ -28,10 +29,11 @@ namespace CarRentalWebsite.Controllers
         private readonly ApplicationDbContext _dcContext;
         private readonly Smtp _smtpService;
         readonly ContactOptions _contactOptions;
+		private readonly UserManager<IdentityUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, IWebHostEnvironment environment,
+		public HomeController(ILogger<HomeController> logger, IWebHostEnvironment environment,
             DBContext context, ApplicationDbContext dcContext, Smtp smtpService, 
-            IOptions<ContactOptions> contactOptions)
+            IOptions<ContactOptions> contactOptions, UserManager<IdentityUser> userManager)
         {
             _logger = logger;
             _environment = environment;
@@ -39,6 +41,7 @@ namespace CarRentalWebsite.Controllers
             _dcContext = dcContext;
 			_smtpService = smtpService;
 			_contactOptions = contactOptions.Value;
+            _userManager = userManager;
 		}
 
 
@@ -72,33 +75,15 @@ namespace CarRentalWebsite.Controllers
 		    return RedirectToAction("Contact");
         }
 
-        [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> OwnerDetails()
-        {
-            ////var UserName = User.Identity.Name.ToString();
-            ////var Address = User.Identity..Address.ToString();
-            ////var Mobile = User.Identity.Phone.ToString();
-            ////var emergencyContact = User.Identity.EmergencyContact.ToString();
-            ////var registrationDate = User.Identity.Date.ToString();
-            //1.Name            --Vehicle 
-            //2.Address         --?? auth
-            //3.Owner mobile no  --?? auth
-            //4.Emergency contact no  
-            //5.Edit        -nok
-            //
-            // Delete        =nok
-            // 6.Registration date 
-
-            return View();
-            //return _dcContext.Users != null ?
-            //            View(await _dcContext.Users.ToListAsync()) :
-            //            Problem("Entity set 'DBContext.Calls'  is null.");
-
-        }
+		[HttpGet]
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> OwnerDetails()
+		{
+			return View(await _userManager.Users.ToListAsync());
+		}
 
 
-        [Authorize]
+		[Authorize]
         public IActionResult GenerateQRCode()
         {
             var UserName = User.Identity.Name.ToString();
