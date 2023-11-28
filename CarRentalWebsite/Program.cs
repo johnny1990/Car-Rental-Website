@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +52,28 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseExceptionHandler("/Error");
+
+//Logging middleware
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next();
+    }
+    catch (Exception ex)
+    {
+        string folder = @"C:\Temp\";
+        string fileName = "LoggingExceptionsCarRentalWebsite.txt";
+        string fullPath = folder + fileName;
+        File.WriteAllBytes(fullPath, Encoding.Default.GetBytes(ex.ToString()));
+
+        ex.Data.Add("Request", $"{context.Request.Method} {context.Request.Path}");
+        context.Response.StatusCode = 500;
+        await context.Response.WriteAsync("An error occurred, please try again later.");
+    }
+});
 
 app.MapControllerRoute(
     name: "default",
