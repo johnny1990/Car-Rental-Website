@@ -29,7 +29,8 @@ builder.Services.AddDbContext<DBContext>(
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
 
-
+builder.Services.AddHttpReportsDashboard().AddSQLServerStorage();
+builder.Services.AddHttpReports().AddHttpTransport();
 
 
 builder.Services.AddSingleton<Smtp, Smtp>();
@@ -87,5 +88,7 @@ app.MapRazorPages();
 var summary = BenchmarkRunner.Run<AccountController>();
 Console.WriteLine(summary);
 
+//app.UseHttpReportsDashboard();//Use HttpReports Dashboard
+app.UseHttpReports(); //Use HttpReports
 
 app.Run();
