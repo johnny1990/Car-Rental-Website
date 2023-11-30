@@ -1,3 +1,5 @@
+using BenchmarkDotNet.Running;
+using CarRentalWebsite.Controllers;
 using CarRentalWebsite.Data;
 using CarRentalWebsite.Database;
 using CarRentalWebsite.Hubs;
@@ -8,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -80,5 +83,9 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapHub<ChatHub>("/ChatHub");
 app.MapRazorPages();
+
+var summary = BenchmarkRunner.Run<AccountController>();
+Console.WriteLine(summary);
+
 
 app.Run();

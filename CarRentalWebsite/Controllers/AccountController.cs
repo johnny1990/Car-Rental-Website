@@ -1,4 +1,5 @@
-﻿using CarRentalWebsite.Models;
+﻿using BenchmarkDotNet.Attributes;
+using CarRentalWebsite.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CarRentalWebsite.Controllers
 {
     [AllowAnonymous]
+    [MemoryDiagnoser]
     public class AccountController : Controller
     {
         private readonly SignInManager<IdentityUser> signInManager;
@@ -18,6 +20,7 @@ namespace CarRentalWebsite.Controllers
         }
 
         [HttpGet]
+        [Benchmark]
         public IActionResult Login()
         {
             return View();
