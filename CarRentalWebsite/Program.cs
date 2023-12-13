@@ -7,9 +7,11 @@ using CarRentalWebsite.Services;
 using CarRentalWebsite.SmtpService;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using System.Text;
+using System.Threading.RateLimiting;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -59,6 +61,8 @@ app.UseAuthorization();
 
 app.UseExceptionHandler("/Error");
 
+app.UseRateLimiter();
+
 //Logging middleware
 app.Use(async (context, next) =>
 {
@@ -78,6 +82,15 @@ app.Use(async (context, next) =>
         await context.Response.WriteAsync("An error occurred, please try again later.");
     }
 });
+
+//Limiter middleware
+app.UseRateLimiter(new RateLimiterOptions()
+    .AddConcurrencyLimiter("test-limiter", (options) =>
+    {
+        options.PermitLimit = 10;
+        options.QueueLimit = 100;
+        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+    }));
 
 app.MapControllerRoute(
     name: "default",
