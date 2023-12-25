@@ -1,28 +1,27 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "GenerateOTP";
 }
 
 <h3>GenerateOTP</h3>
 
-<form method="post" asp-action="SendOTP" asp-controller="Home">
+<form method="post" asp-action="SendOTP" asp-controller="Generation">
     <input type="submit" value="GetOtp" />
 
     <div>Your generated OTP password is:</div>
     <div>
         @TempData["otp"]
     </div>
-    
+
 </form>
 
-<form method="post" asp-action="ValidateOTP" asp-controller="Home">
+<form method="post" asp-action="ValidateOTP" asp-controller="Generation">
 
     <div> Type your Generated OTP password</div>
     <input type="text" />
 
     <input type="submit" value="ValidateOtp" />
 
-    @if (@TempData["otp"] == @TempData["otp"]) 
+    @if (@TempData["otp"] == @TempData["otp"])
     {
         TempData["result"] = "Token is Valid";
     }
