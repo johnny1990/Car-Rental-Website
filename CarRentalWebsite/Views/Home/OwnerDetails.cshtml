@@ -4,7 +4,6 @@
     ViewData["Title"] = "Owner details";
 }
 
-
 <table class="table" border="1">
     <thead class="text-info bg-light">
         <tr>
@@ -18,7 +17,7 @@
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SecurityStamp)
+                @Html.DisplayNameFor(model => model.NormalizedEmail)
             </th>
             <th></th>
         </tr>
@@ -37,7 +36,7 @@
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.SecurityStamp)
+                    @Html.DisplayFor(modelItem => item.NormalizedEmail)
                 </td>
                 <td>
                 </td>
