@@ -67,6 +67,18 @@ namespace CarRentalWebsite.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(vehicle.Vehicle_Type == "0")
+                {
+                    vehicle.Vehicle_Type = EnumVehicleType.Regular.ToString();
+                }
+                else if(vehicle.Vehicle_Type == "1")
+                {
+                    vehicle.Vehicle_Type = EnumVehicleType.SUV.ToString(); 
+                }
+                else if(vehicle.Vehicle_Type == "2")
+                {
+                    vehicle.Vehicle_Type = EnumVehicleType.Truck.ToString();
+                }
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
