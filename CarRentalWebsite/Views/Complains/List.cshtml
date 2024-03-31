@@ -4,49 +4,59 @@
     ViewData["Title"] = "Complains list";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="New"> New</a>
-</p>
-<table class="table" border="1">
-    <thead class="text-info bg-light">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Owner)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Kit_Number)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Message)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Message_Date)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Owner)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Kit_Number)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Message)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Message_Date)
-            </td>
-                    <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> | |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="card" style="width: 1000px;">
+    <div class="card-header">
+        <h1 class="text-center">Complains list</h1>
+    </div>
+    <div class="card-body">
+        <p>
+            <a asp-action="New"> New</a>
+        </p>
+        <table class="table" border="1">
+            <thead class="text-info bg-light">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Owner)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Kit_Number)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Message)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Message_Date)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Owner)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Kit_Number)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Message)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Message_Date)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> | |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
