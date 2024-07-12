@@ -84,6 +84,8 @@ namespace CarRentalWebsite.Controllers
         [Authorize(Roles = "Admin, Client")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Owner,Kit_Number,Message,Message_Date")] Complain complain)
         {
+            var baseUri = GetUrl() + "" + complain.Id;
+
             if (id != complain.Id)
             {
                 return NotFound();
@@ -95,6 +97,12 @@ namespace CarRentalWebsite.Controllers
                 {
                     _context.Update(complain);
                     await _context.SaveChangesAsync();
+
+                    TempData["Message"] = "Complain #" +complain.Id+ " updated successfully";
+
+                    
+                    TempData["Id"] = complain.Id;
+                    TempData["URL"] = baseUri;
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -107,7 +115,7 @@ namespace CarRentalWebsite.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(List));
             }
             return View(complain);
         }
@@ -153,6 +161,12 @@ namespace CarRentalWebsite.Controllers
         private bool ComplainExists(int id)
         {
           return (_context.Complains?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        private string GetUrl()
+        {
+            var baseUri = $"{Request.Scheme}://{Request.Host}" + "/Complains/Edit/";// + complain.Id;
+            return baseUri;
         }
     }
 }

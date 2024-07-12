@@ -4,7 +4,10 @@
     ViewData["Title"] = "Complains list";
 }
 
-
+@if (TempData["URL"] != null)
+{
+    <p> @TempData["Message"] <a href="@TempData["URL"] "> Go to complain #@TempData["Id"]</a></p>
+}
 
 <div class="card" style="width: 1000px;">
     <div class="card-header">
